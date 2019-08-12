@@ -24,7 +24,8 @@ The writer of this documentation uses the combination of Android Studio and Andr
 ## Current State of the Application
 
 Currently, the backend of the Salava project is in development to properly work with the mobile app,
-which limits the development of the mobile application.
+which limits the development of the mobile application a lot. The writer of this documentation uses
+his own (crappy) version of the salava server to enable some initial features of the app.
 
 ## Current Structure of the Application
 
