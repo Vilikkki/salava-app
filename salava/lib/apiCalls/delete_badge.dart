@@ -11,5 +11,7 @@ deleteBadge(int id) async {
 
   if (response.statusCode == 200) {
     print("Ok");
+  } else {
+    print('Failed to delete badge');
   }
 }

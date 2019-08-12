@@ -18,7 +18,7 @@ void main() async {
 
   bool _result = doIhaveToken(contents);
 
-  //bool _helperBool = false;
+  bool _helperBool = false;
 
   if (_result) {
     _defaultHome = WelcomeView();

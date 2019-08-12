@@ -3,6 +3,7 @@ import 'package:salava/apiCalls/fetch_badge_info.dart';
 import 'package:salava/classes/badgeInfo.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:salava/helpers/badge_download.dart';
+import 'package:salava/apiCalls/delete_badge.dart';
 
 class InfoViewEnhanced extends StatefulWidget {
   const InfoViewEnhanced({Key key, this.badgeId, this.badgeImageDownloadUrl})
@@ -238,14 +239,13 @@ showAlertDialogDelete(BuildContext context, int badgeID) {
   Widget noButton = FlatButton(
     child: Text("No"),
     onPressed: () {
-      cancelDownload();
       Navigator.of(context).pop();
     },
   );
   Widget yesButton = FlatButton(
     child: Text("Yes"),
     onPressed: () {
-      print(badgeID);
+      deleteBadge(badgeID);
       Navigator.of(context).pop();
     },
   );
