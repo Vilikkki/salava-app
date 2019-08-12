@@ -1,88 +1,159 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:salava/authentication_service.dart';
-import 'package:salava/widgets/image_header.dart';
+import 'package:salava/helpers/login_and_first_token.dart';
+import 'package:salava/classes/tokenStorage.dart';
 
-class Login extends StatefulWidget {
+class LoginPage extends StatefulWidget {
+  LoginPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _LoginPage createState() => new _LoginPage();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPage extends State<Login> {
-  String _status = "";
-  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  final passwordController = TextEditingController();
-  final emailController = TextEditingController();
-  final auth = AuthenticationService();
+class _LoginPageState extends State<LoginPage> {
+  String _status = '';
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailKey = GlobalKey<FormState>();
+  final _passwordKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // Clean up the controllers when the widget is disposed.
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Salava App Login'),
-        ),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: null,
-          child: Text(this._status),
-        ),
-        body: Container(
-          child: ListView(children: [
-            ImageHeader("assets/images/salava.png"),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
-              child: FormBuilder(
-                key: _fbKey,
-                autovalidate: true,
-                child: Column(children: <Widget>[
-                  FormBuilderTextField(
-                    controller: emailController,
-                    attribute: "loginname",
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        labelText: "Login"),
-                    validators: [
-                      FormBuilderValidators.required(),
-                      FormBuilderValidators.email(),
-                    ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 155.0,
+                  child: Image.asset(
+                    "images/openbadgepassport_stacked_600x600.png",
+                    fit: BoxFit.contain,
                   ),
-                  FormBuilderTextField(
-                    controller: passwordController,
-                    attribute: "password",
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        labelText: "Password"),
-                    validators: [
-                      FormBuilderValidators.required(),
-                    ],
-                  ),
-                  RaisedButton(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 33.0, vertical: 10.0),
-                    child: Text("Login"),
-                    onPressed: () {
-                      setState(() => this._status = 'Logging');
-                      if (_fbKey.currentState.validate()) {
-                        auth
-                            .login(
-                                emailController.text, passwordController.text)
-                            .then((result) {
-                          if (result) {
-                            Navigator.of(context).pushReplacementNamed('/home');
-                          } else {
-                            setState(() => this._status = 'Failed');
-                          }
-                        });
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Form(
+                  key: _emailKey,
+                  child: TextFormField(
+                    controller: _emailController,
+                    validator: (value) {
+                      if (!value.contains('@') || value.isEmpty) {
+                        return 'Not a valid email address';
+                      } else {
+                        return null;
                       }
                     },
-                  )
-                ]),
-              ),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Form(
+                  key: _passwordKey,
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please input password';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                    ),
+                  ),
+                ),
+                Text('$_status'),
+                SizedBox(
+                  height: 15,
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    loginAndGetToken(
+                            _emailController.text, _passwordController.text)
+                        .then((result) {
+                      if (result == true) {
+                        Navigator.pushReplacementNamed(context, '/welcome');
+                      } else {
+                        setState(() {
+                          this._status = 'Failed to login';
+                        });
+                      }
+                    });
+                  },
+                  child: Text("Login"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RaisedButton(
+                  onPressed: () async {
+                    readTokenData();
+                  },
+                  child: Text('File contents to console'),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RaisedButton(
+                  onPressed: () async {
+                    TokenStorage deletion = new TokenStorage();
+                    deletion.overWriteFile();
+                  },
+                  child: Text('Delete file contents'),
+                ),
+              ],
             ),
-          ]),
-        ));
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Future<String> readTokenData() async {
+  TokenStorage doIhaveOne = new TokenStorage();
+
+  try {
+    final file = await doIhaveOne.localFile;
+
+    // Read the file.
+    String contents = await file.readAsString();
+
+    print('File contents: $contents');
+    print(
+        'If tokendata.txt\'s contents are NOT printed to console, the file has been overwritten or the token hasn\'t been fetched from the server');
+    return contents;
+  } catch (e) {
+    return 'Something went wrong...';
+  }
+}
+
+bool doIhaveToken(String fileContent) {
+  if (fileContent.contains('Token')) {
+    return true;
+  } else {
+    return false;
   }
 }

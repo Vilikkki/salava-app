@@ -42,4 +42,30 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
+<!-- START: (START-END) CODE HAS BEEN ADDED BETWEEN THESE COMMENTS TO ENABLE BADGE DOWNLOADS -->
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSExceptionDomains</key>
+  <dict>
+      <!-- THE SERVER NAME IS ADDED TO THE FIRST KEY BELOW IF NECESSARY -->
+    <key>www.yourserver.com</key>
+    <dict>
+      <!-- add this key to enable subdomains such as sub.yourserver.com -->
+      <key>NSIncludesSubdomains</key>
+      <true/>
+      <!-- add this key to allow standard HTTP requests, thus negating the ATS -->
+      <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+      <true/>
+      <!-- add this key to specify the minimum TLS version to accept -->
+      <key>NSTemporaryExceptionMinimumTLSVersion</key>
+      <string>TLSv1.1</string>
+      <!-- changes this number to configure the maximum number of concurrent tasks -->
+      <key>FDMaximumConcurrentTasks</key>
+      <integer>5</integer>
+      <key>FDAllFilesDownloadedMessage</key>
+      <string>All files have been downloaded</string>
+    </dict>
+  </dict>
+</dict>
+<!-- END: (START-END) CODE HAS BEEN ADDED BETWEEN THESE COMMENTS TO ENABLE BADGE DOWNLOADS -->
 </plist>

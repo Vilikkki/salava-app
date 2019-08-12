@@ -1,47 +1,50 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-class SingleBadge {
-  final int viewCount;
-  final int deleted;
-  final String email;
-  final String firstName;
-  final int showRecipientName;
-  final bool verifiedByObf;
-  final List<Content> content;
-  final bool receiveNotifications;
-  final int recipientCount;
-  final bool welcomeOwner;
-  final dynamic expiresOn;
-  final String assertionJson;
-  final int revoked;
-  final bool congratulated;
-  final dynamic evidenceUrl;
-  final int userEndorsementCount;
-  final int issuedOn;
-  final String obfUrl;
-  final int ctime;
-  final String status;
-  final bool issuedByObf;
-  final int id;
-  final String lastName;
-  final int userId;
-  final String remoteUrl;
-  final String badgeId;
-  final List<dynamic> congratulations;
-  final bool userLoggedIn;
-  final String assertionUrl;
-  final String qrCode;
-  final String visibility;
-  final int owner;
-  final int showEvidence;
-  final dynamic rating;
-  final Assertion assertion;
-  final List<dynamic> evidences;
-  final int mtime;
-  final int issuerVerified;
+BadgeInfo badgeInfoFromJson(String str) => BadgeInfo.fromJson(json.decode(str));
 
-  SingleBadge({
+String badgeInfoToJson(BadgeInfo data) => json.encode(data.toJson());
+
+class BadgeInfo {
+  dynamic viewCount;
+  int deleted;
+  String email;
+  String firstName;
+  int showRecipientName;
+  bool verifiedByObf;
+  List<Content> content;
+  dynamic receiveNotifications;
+  int recipientCount;
+  bool badgeInfoOwner;
+  int expiresOn;
+  String assertionJson;
+  int revoked;
+  dynamic congratulated;
+  dynamic evidenceUrl;
+  int userEndorsementCount;
+  int issuedOn;
+  dynamic obfUrl;
+  int ctime;
+  String status;
+  bool issuedByObf;
+  int id;
+  String lastName;
+  int userId;
+  dynamic remoteUrl;
+  String badgeId;
+  dynamic congratulations;
+  bool userLoggedIn;
+  String assertionUrl;
+  String qrCode;
+  String visibility;
+  int owner;
+  int showEvidence;
+  dynamic rating;
+  Assertion assertion;
+  List<dynamic> evidences;
+  int mtime;
+  int issuerVerified;
+
+  BadgeInfo({
     this.viewCount,
     this.deleted,
     this.email,
@@ -51,7 +54,7 @@ class SingleBadge {
     this.content,
     this.receiveNotifications,
     this.recipientCount,
-    this.welcomeOwner,
+    this.badgeInfoOwner,
     this.expiresOn,
     this.assertionJson,
     this.revoked,
@@ -82,7 +85,7 @@ class SingleBadge {
     this.issuerVerified,
   });
 
-  factory SingleBadge.fromJson(Map<String, dynamic> json) => new SingleBadge(
+  factory BadgeInfo.fromJson(Map<String, dynamic> json) => new BadgeInfo(
         viewCount: json["view_count"],
         deleted: json["deleted"],
         email: json["email"],
@@ -93,7 +96,7 @@ class SingleBadge {
             json["content"].map((x) => Content.fromJson(x))),
         receiveNotifications: json["receive-notifications"],
         recipientCount: json["recipient_count"],
-        welcomeOwner: json["owner?"],
+        badgeInfoOwner: json["owner?"],
         expiresOn: json["expires_on"],
         assertionJson: json["assertion_json"],
         revoked: json["revoked"],
@@ -110,8 +113,7 @@ class SingleBadge {
         userId: json["user_id"],
         remoteUrl: json["remote_url"],
         badgeId: json["badge_id"],
-        congratulations:
-            new List<dynamic>.from(json["congratulations"].map((x) => x)),
+        congratulations: json["congratulations"],
         userLoggedIn: json["user-logged-in?"],
         assertionUrl: json["assertion_url"],
         qrCode: json["qr_code"],
@@ -135,7 +137,7 @@ class SingleBadge {
         "content": new List<dynamic>.from(content.map((x) => x.toJson())),
         "receive-notifications": receiveNotifications,
         "recipient_count": recipientCount,
-        "owner?": welcomeOwner,
+        "owner?": badgeInfoOwner,
         "expires_on": expiresOn,
         "assertion_json": assertionJson,
         "revoked": revoked,
@@ -152,8 +154,7 @@ class SingleBadge {
         "user_id": userId,
         "remote_url": remoteUrl,
         "badge_id": badgeId,
-        "congratulations":
-            new List<dynamic>.from(congratulations.map((x) => x)),
+        "congratulations": congratulations,
         "user-logged-in?": userLoggedIn,
         "assertion_url": assertionUrl,
         "qr_code": qrCode,
@@ -166,69 +167,57 @@ class SingleBadge {
         "mtime": mtime,
         "issuer_verified": issuerVerified,
       };
-
-  static Future<SingleBadge> fetchByBadgeId(int badgeId) async {
-    var uri = 'http://10.0.2.2:5000/obpv1/badge/info/' + badgeId.toString();
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final badge = SingleBadge.fromJson(json.decode(response.body));
-      return badge;
-    } else {
-      throw Exception('Something went wrong');
-    }
-  }
 }
 
 class Assertion {
-  final Verification verification;
-  final String badge;
-  final String context;
-  final Recipient recipient;
-  final String issuedOn;
-  final String id;
-  final String type;
-  final String expires;
+  String type;
+  String id;
+  String badge;
+  String context;
+  Verification verification;
+  String issuedOn;
+  Recipient recipient;
+  String expires;
 
   Assertion({
-    this.verification,
+    this.type,
+    this.id,
     this.badge,
     this.context,
-    this.recipient,
+    this.verification,
     this.issuedOn,
-    this.id,
-    this.type,
+    this.recipient,
     this.expires,
   });
 
   factory Assertion.fromJson(Map<String, dynamic> json) => new Assertion(
-        verification: Verification.fromJson(json["verification"]),
+        type: json["type"],
+        id: json["id"],
         badge: json["badge"],
         context: json["@context"],
-        recipient: Recipient.fromJson(json["recipient"]),
+        verification: Verification.fromJson(json["verification"]),
         issuedOn: json["issuedOn"],
-        id: json["id"],
-        type: json["type"],
+        recipient: Recipient.fromJson(json["recipient"]),
         expires: json["expires"],
       );
 
   Map<String, dynamic> toJson() => {
-        "verification": verification.toJson(),
+        "type": type,
+        "id": id,
         "badge": badge,
         "@context": context,
-        "recipient": recipient.toJson(),
+        "verification": verification.toJson(),
         "issuedOn": issuedOn,
-        "id": id,
-        "type": type,
+        "recipient": recipient.toJson(),
         "expires": expires,
       };
 }
 
 class Recipient {
-  final String identity;
-  final bool hashed;
-  final String type;
-  final String salt;
+  String identity;
+  bool hashed;
+  String type;
+  String salt;
 
   Recipient({
     this.identity,
@@ -253,7 +242,7 @@ class Recipient {
 }
 
 class Verification {
-  final String type;
+  String type;
 
   Verification({
     this.type,
@@ -269,28 +258,28 @@ class Verification {
 }
 
 class Content {
-  final String description;
-  final String languageCode;
-  final String issuerDescription;
-  final String issuerContentUrl;
-  final dynamic creatorName;
-  final String issuerContentName;
-  final int endorsementCount;
-  final String name;
-  final String imageFile;
-  final dynamic creatorContentId;
-  final List<dynamic> alignment;
-  final String criteriaContent;
-  final String issuerContact;
-  final String issuerContentId;
-  final String issuerImage;
-  final String defaultLanguageCode;
-  final dynamic creatorDescription;
-  final String criteriaUrl;
-  final dynamic creatorEmail;
-  final dynamic creatorImage;
-  final String badgeId;
-  final dynamic creatorUrl;
+  String description;
+  String languageCode;
+  String issuerDescription;
+  String issuerContentUrl;
+  dynamic creatorName;
+  String issuerContentName;
+  int endorsementCount;
+  String name;
+  String imageFile;
+  dynamic creatorContentId;
+  List<dynamic> alignment;
+  String criteriaContent;
+  String issuerContact;
+  String issuerContentId;
+  dynamic issuerImage;
+  String defaultLanguageCode;
+  dynamic creatorDescription;
+  String criteriaUrl;
+  dynamic creatorEmail;
+  dynamic creatorImage;
+  String badgeId;
+  dynamic creatorUrl;
 
   Content({
     this.description,
