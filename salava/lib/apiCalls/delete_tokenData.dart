@@ -15,8 +15,6 @@ Future<bool> deleteTokenData() async {
   String accessToken = tokens[0];
   //String refreshToken = tokens[1];
 
-  print('Tiedosto luettu');
-
   var url = 'http://192.168.1.26:5000/oauth/deletetokendata';
 
   var response = await http.get(url, headers: {'Authorization': accessToken});

@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- ALKU: ALKU-LOPPU KOMMENTTIEN VÄLIIN LISÄTTY KOODIA BADGEJEN LATAUKSEN MAHDOLLISTAMISEKSI-->
+        <!-- START: CODE ADDED BETWEEN START-END COMMENTS TO ENABLE BADGE DOWNLOADS. ADDITIONS ALSO ON LINES 3,4 AND 11-->
         <provider
             android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
             android:authorities="${applicationId}.flutter_downloader.provider"
@@ -41,6 +41,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
-        <!-- LOPPU: -->
+        <!-- END: -->
     </application>
 </manifest>
