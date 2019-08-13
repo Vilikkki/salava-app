@@ -3,7 +3,7 @@
 ## Getting Started
 
 This project is a being developed with Google's Flutter UI toolkit.
-It is designed to be used closely with [Open Badge Passport]. https://github.com/discendum/salava
+It is designed to be used closely with Open Badge Passport. https://github.com/discendum/salava
 
 A few resources to get you started if this is your first Flutter project:
 
@@ -23,9 +23,10 @@ The writer of this documentation uses the combination of Android Studio and Andr
 
 ## Current State of the Application
 
-Currently, the backend of the Salava project is in development to properly work with the mobile app,
-which limits the development of the mobile application a lot. The writer of this documentation uses
-his own (crappy) version of the salava server to enable some initial features of the app.
+The application is currently in it's very early stages. The backend of the Salava project is in development to
+properly work with the mobile app, which limits the development of the mobile application a lot.
+To test and develop the mobile app in a meaningful way Salava must first be installed on your computer
+and it's API routes modified to allow API calls.
 
 ## Current Structure of the Application
 
