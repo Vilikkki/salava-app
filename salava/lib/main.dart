@@ -4,6 +4,7 @@ import 'package:salava/classes/tokenStorage.dart';
 import 'package:salava/views/login.dart';
 import 'package:salava/views/new_home.dart';
 import 'package:salava/views/downloaded_badges.dart';
+import 'package:salava/views/test_view_svg.dart';
 
 void main() async {
   Widget _defaultHome = LoginPage();
@@ -21,7 +22,8 @@ void main() async {
   bool _helperBool = false;
 
   if (_result) {
-    _defaultHome = WelcomeView();
+    _defaultHome = ShowMeThatSVG();
+    //_defaultHome = WelcomeView();
   } else {
     _defaultHome = LoginPage();
   }

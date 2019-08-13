@@ -180,7 +180,7 @@ packages:
     source: hosted
     version: "0.4.1"
   path_parsing:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_parsing
       url: "https://pub.dartlang.org"
