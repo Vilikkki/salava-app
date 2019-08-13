@@ -9,8 +9,17 @@ class TokenStorage {
   }
 
   Future<File> get localFile async {
-    final path = await localPath;
-    return File('$path/tokendata.txt');
+    final String path = await localPath;
+
+    bool file = await File('$path/tokendata.txt').exists();
+
+    if (file) {
+      return File('$path/tokendata.txt');
+    } else {
+      final createFile = File('$path/tokendata.txt').create(recursive: false);
+
+      return createFile;
+    }
   }
 
   Future<File> writeAccessAndRefreshToFile(String tokendata) async {
