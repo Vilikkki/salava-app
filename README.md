@@ -30,6 +30,10 @@ properly work with the mobile app, which limits the development of the mobile ap
 To test and develop the mobile app in a meaningful way Salava must first be installed on your computer
 and it's API routes modified to allow API calls.
 
+On the mobile app side, all API call routes also need to be modified to suit your version of the Salava
+server and database. To start the app, the _helperBool variable in main.dart can be used in the conditional statement to bypass
+the login view.
+
 ## Current Structure of the Application
 
 The goal of the application is to enable convenient and easy mobile access for a user of the
