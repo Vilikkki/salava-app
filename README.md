@@ -19,7 +19,9 @@ No iOS testing has been made.
 
 There are multiple options on how to get this application working on a phone or an emulator. The above link to
 the Lab provides more information on this.
-The writer of this documentation uses the combination of Android Studio and Android Emulator.(atleast atm...)
+The writer of this documentation uses the combination of Android Studio and Android Emulator.
+When creating a new virtual device with Android Emulator, it is recommended that System Image "Pie"
+is used (API level 28). System Image Q (API level 29) might not work. Lower API levels have not been tested.
 
 ## Current State of the Application
 
