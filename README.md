@@ -50,7 +50,7 @@ web app(API calls in development). In the badge info view the user can also down
 
 ## to-dos
 
-- Badge sharing
+- Badge sharing (Badge image can be shared (downloaded and online badges))
 - Enabling SVG images
 - and A LOT more...
 

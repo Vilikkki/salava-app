@@ -4,6 +4,7 @@ import 'package:salava/classes/badgeInfo.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:salava/helpers/badge_download.dart';
 import 'package:salava/apiCalls/delete_badge.dart';
+import 'package:salava/helpers/sharing.dart';
 
 class InfoViewEnhanced extends StatefulWidget {
   const InfoViewEnhanced({Key key, this.badgeId, this.badgeImageDownloadUrl})
@@ -91,10 +92,23 @@ class _InfoViewEnhancedState extends State<InfoViewEnhanced> {
                 children: <Widget>[
                   svgOrPngCA(findContent(snapshot.data.content).imageFile),
                   Text(
-                      'Views: ${snapshot.data.viewCount}'), //Wrong being used for view count.. This one give a null value...
+                      'Views: ${snapshot.data.viewCount}'), //Wrong API being used for view count... This one gives a null value...
                   Text(
                     findContent(snapshot.data.content).name,
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.share),
+                          onPressed: () {
+                            shareImageFromUrl(_imageDownloadUrl);
+                          }),
+                    ],
+                  ),
+                  Divider(
+                    indent: 8,
+                    endIndent: 8,
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),

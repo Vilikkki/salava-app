@@ -2,6 +2,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:salava/helpers/sharing.dart';
 
 class DownloadedBadges extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class DownloadedBadges extends StatefulWidget {
 }
 
 class _DownloadedBadgesState extends State<DownloadedBadges> {
+  // Right data is found by using ListView builders index
   List<FileSystemEntity> filePathList;
 
   List<String> badgeNumberList;
@@ -87,7 +89,12 @@ class _DownloadedBadgesState extends State<DownloadedBadges> {
                     Text(separatedData[index][2]),
                   ],
                 ),
-              )
+              ),
+              IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: () {
+                    shareDownloadedImage(badgeNumberList[index]);
+                  })
             ],
           ));
         },
@@ -100,7 +107,7 @@ class _DownloadedBadgesState extends State<DownloadedBadges> {
 }
 
 Future<List<FileSystemEntity>> getFilePaths() async {
-  String path = await _findLocalPath();
+  String path = await findLocalPath();
   String finalPath = path + '/obp/';
 
   final dir = Directory(finalPath);
@@ -138,13 +145,13 @@ List<String> entitiesToStrings(List<FileSystemEntity> list) {
   return stringList;
 }
 
-Future<String> _findLocalPath() async {
+Future<String> findLocalPath() async {
   final directory = await getExternalStorageDirectory();
   return directory.path;
 }
 
 Future<bool> doesObpDirExist() async {
-  String path = await _findLocalPath();
+  String path = await findLocalPath();
   String finalPath = path + '/obp/';
 
   final dir = Directory(finalPath);
