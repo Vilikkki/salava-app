@@ -4,6 +4,21 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<!-- START: (START-END) CODE HAS BEEN ADDED BETWEEN THESE COMMENTS TO ENABLE BADGE DOWNLOADS -->
+	<key>CFBundleURLTypes</key>
+      <array>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleURLName</key>
+          <string>salava.com</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>salava</string>
+          </array>
+        </dict>
+      </array>
+      <!-- END: (START-END) CODE HAS BEEN ADDED BETWEEN THESE COMMENTS TO ENABLE BADGE DOWNLOADS -->
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -41,6 +56,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key><!-- ADDED KEY AND STRING FOR EMBEDDED WEBVIEWS -->
+	<string>YES</string>
 </dict>
 <!-- START: (START-END) CODE HAS BEEN ADDED BETWEEN THESE COMMENTS TO ENABLE BADGE DOWNLOADS -->
 <key>NSAppTransportSecurity</key>

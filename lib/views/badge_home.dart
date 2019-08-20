@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salava/views/badge_view.dart';
 import 'package:salava/views/new_badges_view.dart';
+
 ///////////////////////////////////////////////////////////////////
 
 class BadgeHome extends StatefulWidget {
@@ -20,9 +21,6 @@ class _BadgeHomeState extends State<BadgeHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Badges'),
-      ),
       body: Center(child: _views.elementAt(_currentIndex)),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -32,7 +30,7 @@ class _BadgeHomeState extends State<BadgeHome> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.photo_album),
-            title: Text('Badges'),
+            title: Text('Your Badges'),
           ),
         ],
         currentIndex: _currentIndex,

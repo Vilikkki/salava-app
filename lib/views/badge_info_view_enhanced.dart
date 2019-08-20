@@ -7,10 +7,15 @@ import 'package:salava/apiCalls/delete_badge.dart';
 import 'package:salava/helpers/sharing.dart';
 
 class InfoViewEnhanced extends StatefulWidget {
-  const InfoViewEnhanced({Key key, this.badgeId, this.badgeImageDownloadUrl})
+  const InfoViewEnhanced(
+      {Key key,
+      this.badgeId,
+      this.badgeImageDownloadUrl,
+      this.badgePrivacySetting})
       : super(key: key);
   final int badgeId;
   final String badgeImageDownloadUrl;
+  final String badgePrivacySetting;
 
   @override
   _InfoViewEnhancedState createState() => _InfoViewEnhancedState();
@@ -19,12 +24,20 @@ class InfoViewEnhanced extends StatefulWidget {
 class _InfoViewEnhancedState extends State<InfoViewEnhanced> {
   int _id;
   String _imageDownloadUrl;
+  bool _visibility;
 
   @override
   initState() {
     super.initState();
     _id = widget.badgeId;
     _imageDownloadUrl = widget.badgeImageDownloadUrl;
+
+    if (widget.badgePrivacySetting == 'private' ||
+        widget.badgePrivacySetting == 'internal') {
+      _visibility = false;
+    } else {
+      _visibility = true;
+    }
   }
 
   @override
@@ -56,7 +69,6 @@ class _InfoViewEnhancedState extends State<InfoViewEnhanced> {
               IconButton(
                 icon: Icon(lista[0].iconi),
                 onPressed: () {
-                  print(findContent(snapshot.data.content).name);
                   showAlertDialogDownload(
                     context,
                     _imageDownloadUrl,
@@ -75,12 +87,10 @@ class _InfoViewEnhancedState extends State<InfoViewEnhanced> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
                 child: IconButton(
-                  icon: Icon(lista[1].iconi),
-                  onPressed: () {
-                    print(_imageDownloadUrl);
-                    showAlertDialogDelete(context, _id);
-                  },
-                ),
+                    icon: Icon(lista[1].iconi),
+                    onPressed: () {
+                      showAlertDialogDelete(context, _id);
+                    }),
               ),
             ],
           ),
@@ -99,11 +109,8 @@ class _InfoViewEnhancedState extends State<InfoViewEnhanced> {
                   ),
                   Row(
                     children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.share),
-                          onPressed: () {
-                            shareImageFromUrl(_imageDownloadUrl);
-                          }),
+                      shareIconButton(_visibility,
+                          'http://192.168.1.26:5000/obpv1/badge/info/$_id')
                     ],
                   ),
                   Divider(
@@ -290,4 +297,16 @@ Future<BadgeInfo> _info(int id) async {
   print('BadgeInfoView: BadgeInfo created');
 
   return badgeInfo;
+}
+
+Widget shareIconButton(bool visibility, String url) {
+  if (visibility) {
+    return IconButton(
+        icon: Icon(Icons.share),
+        onPressed: () {
+          shareBadgeUrl(url);
+        });
+  } else {
+    return Text('Private or internal Badge');
+  }
 }

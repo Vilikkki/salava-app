@@ -36,3 +36,7 @@ Future<void> shareDownloadedImage(String id) async {
     print('error: $e');
   }
 }
+
+shareBadgeUrl(String url) {
+  Share.text('Badge info URL', url, 'text/plain');
+}

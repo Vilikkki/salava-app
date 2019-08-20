@@ -3,6 +3,7 @@ import 'package:salava/apiCalls/fetch_badges.dart';
 import 'package:salava/classes/badge.dart';
 import 'package:salava/widgets/badgeButton.dart';
 import 'package:salava/views/badge_info_view_enhanced.dart';
+import 'package:salava/classes/badgeSearch.dart';
 
 class BadgeList extends StatefulWidget {
   @override
@@ -37,31 +38,46 @@ class _BadgeListState extends State<BadgeList> {
             ),
           ));
 
-        return ListView(
-          children: snapshot.data
-              .map((badge) => Card(
-                      child: ListTile(
-                    contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    leading: FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InfoViewEnhanced(
-                                      badgeId: badge.id,
-                                      badgeImageDownloadUrl: badge.imageFile,
-                                    )),
-                          );
-                        },
-                        child: svgOrPng(badge.imageFile)),
-                    title: Text(badge.name),
-                    subtitle: Text(badge.issuerContentName),
-                    trailing: IconiButton(
-                      badgeVisibility: badge.visibility,
-                    ),
-                    isThreeLine: true,
-                  )))
-              .toList(),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Your Badges'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                      context: context, delegate: BadgeSearch(fetchBadges()));
+                },
+              )
+            ],
+          ),
+          body: ListView(
+            children: snapshot.data
+                .map((badge) => Card(
+                        child: ListTile(
+                      contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      leading: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InfoViewEnhanced(
+                                        badgeId: badge.id,
+                                        badgeImageDownloadUrl: badge.imageFile,
+                                        badgePrivacySetting: badge.visibility,
+                                      )),
+                            );
+                          },
+                          child: svgOrPng(badge.imageFile)),
+                      title: Text(badge.name),
+                      subtitle: Text(badge.issuerContentName),
+                      trailing: IconiButton(
+                        badgeVisibility: badge.visibility,
+                      ),
+                      isThreeLine: true,
+                    )))
+                .toList(),
+          ),
         );
       },
     );

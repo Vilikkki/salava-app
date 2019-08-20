@@ -8,10 +8,17 @@ class NewBadges extends StatefulWidget {
 class _NewBadgesState extends State<NewBadges> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text('New Badges'),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Your new Badges'),
+        ),
+        body: Center(
+          child: Container(
+            child: Text('New Badges'),
+          ),
+        ));
   }
 }
+/*Center(
+      child: Container(
+        child: Text('New Badges'), */

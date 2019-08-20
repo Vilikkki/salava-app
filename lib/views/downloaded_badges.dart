@@ -10,7 +10,7 @@ class DownloadedBadges extends StatefulWidget {
 }
 
 class _DownloadedBadgesState extends State<DownloadedBadges> {
-  // Right data is found by using ListView builders index
+  // Right data is found by using the ListView builders index
   List<FileSystemEntity> filePathList;
 
   List<String> badgeNumberList;
@@ -187,6 +187,7 @@ List<List<String>> separateDataString(List<String> dataList) {
 }
 
 Widget svgOrPngDownloadedView(String path, String number, String data) {
+  print(path + '/badge$number.$data');
   if (data == 'svg') {
     return new Image.asset(
       'images/sadface.png',
