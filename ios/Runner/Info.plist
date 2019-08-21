@@ -62,6 +62,12 @@
 <!-- START: (START-END) CODE HAS BEEN ADDED BETWEEN THESE COMMENTS TO ENABLE BADGE DOWNLOADS -->
 <key>NSAppTransportSecurity</key>
 <dict>
+<!-- Code added for 3rd party webview plugin (4 lines) -->
+  <key>NSAllowsArbitraryLoads</key>
+    <true/>
+    <key>NSAllowsArbitraryLoadsInWebContent</key>
+  <true/>
+<!-- until here-->
   <key>NSExceptionDomains</key>
   <dict>
       <!-- THE SERVER NAME IS ADDED TO THE FIRST KEY BELOW IF NECESSARY -->
